@@ -1,21 +1,39 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <div>
+    <table>
+      <tr>
+        <th>Picture</th>
+        <th>Name</th>
+        <th>Popularity</th>
+      </tr>
+      <tr v-for="data in topContacts" :key="data.name">
+        <td>
+          <img
+            :src="data.pictureUrl"
+            :alt="`foto de ${data.name}`"
+          />
+        </td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.popularity }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<script>
+import json from "./contacts.json";
+export default {
+  data() {
+    return {
+      contacts: json,
+    };
+  },
+  computed: {
+    topContacts() {
+      return [...this.contacts].slice(0, 5);
+    },
+  },
+};
+</script>
+
+<style></style>
