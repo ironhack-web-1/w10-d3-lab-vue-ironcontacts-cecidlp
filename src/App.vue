@@ -10,8 +10,9 @@
         <th>Popularity</th>
         <th>Won Oscar</th>
         <th>Won Emmy</th>
+        <th>Actions</th>
       </tr>
-      <tr v-for="data in topContacts" :key="data.name">
+      <tr v-for="(data, index) in topContacts" :key="data.name">
         <td>
           <img :src="data.pictureUrl" :alt="`foto de ${data.name}`" />
         </td>
@@ -19,8 +20,9 @@
         <td>{{ data.popularity }}</td>
         <td v-if="data.wonOscar === true">&#127942</td>
         <td v-else-if="data.wonOscar === false">Oh no &#128533</td>
-        <td v-if="data.wonEmmy === true">&#127942</td>
+        <td v-if="data.wonEmmy === true">⭐</td>
         <td v-else-if="data.wonEmmy === false">Oh no &#128533</td>
+        <td><button @click="deleteContact (index)">Delete</button></td>
       </tr>
     </table>
   </div>
@@ -47,6 +49,9 @@ export default {
   },
   sortByPopularity() {
     this.topContacts.sort((a, b)=> b.popularity - a.popularity); 
+  },
+  deleteContact(index) {
+    this.topContacts.splice(index, 1);
   }
 },
 };
