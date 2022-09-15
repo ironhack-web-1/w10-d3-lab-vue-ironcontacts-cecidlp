@@ -1,19 +1,23 @@
 <template>
   <div>
-    <button @click="addRandomContact">Add Random Contact</button>
+    <h1>List of Contacts</h1>
+    <div class="sortbuttons">
+      <button @click="addRandomContact">Add Random Contact</button>
     <button @click ="sortByName">Sort by name</button>
     <button @click ="sortByPopularity">Sort by popularity</button>
+    </div>
+    
     <table>
-      <tr>
-        <th>Picture</th>
+      <thead>
+          <th>Picture</th>
         <th>Name</th>
         <th>Popularity</th>
         <th>Won Oscar</th>
         <th>Won Emmy</th>
         <th>Actions</th>
-      </tr>
+      </thead>
       <tr v-for="(data, index) in topContacts" :key="data.name">
-        <td>
+        <td class="picture">
           <img :src="data.pictureUrl" :alt="`foto de ${data.name}`" />
         </td>
         <td>{{ data.name }}</td>
@@ -34,27 +38,68 @@ export default {
   data() {
     return {
       contacts: json,
-      topContacts : json.slice(20, 25)
+      topContacts: json.slice(20, 25),
     };
   },
   methods: {
     addRandomContact() {
-        const filteredContacts = this.contacts.filter(contact => !this.topContacts.includes(contact))
-        const randomContact = filteredContacts[Math.floor(filteredContacts.length * Math.random())]
-        this.topContacts.push(randomContact)
-        console.log(randomContact)
+      const filteredContacts = this.contacts.filter(
+        (contact) => !this.topContacts.includes(contact)
+      );
+      const randomContact =
+        filteredContacts[Math.floor(filteredContacts.length * Math.random())];
+      this.topContacts.push(randomContact);
+      console.log(randomContact);
     },
-    sortByName(){
-    this.topContacts.sort((a, b) => a.name.localeCompare (b.name) );
+    sortByName() {
+      this.topContacts.sort((a, b) => a.name.localeCompare(b.name));
+    },
+    sortByPopularity() {
+      this.topContacts.sort((a, b) => b.popularity - a.popularity);
+    },
+    deleteContact(index) {
+      this.topContacts.splice(index, 1);
+    },
   },
-  sortByPopularity() {
-    this.topContacts.sort((a, b)=> b.popularity - a.popularity); 
-  },
-  deleteContact(index) {
-    this.topContacts.splice(index, 1);
-  }
-},
 };
 </script>
 
-<style></style>
+<style>
+
+body {
+  font-family: Helvetica;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.sortbuttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 3%;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+thead {
+  background: #ececec;
+}
+
+.picture {
+  width: 20%;
+}
+
+img {
+  width: 100%;
+  margin-top: 2%;
+  margin-bottom: 0%;
+}
+
+</style>
